@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant Client as TCP Client
+    participant Server as TCP Server
+
+    Note over Client,Server: Connection Establishment (Three-way handshake)
+    Client->>Server: SYN (Connection request)
+    Server->>Client: SYN-ACK (Acknowledge + accept)
+    Client->>Server: ACK (Acknowledge connection established)
+    
+    Note over Client,Server: Data Transmission (Reliable, ordered)
+    Client->>Server: Data Packet 1 (Part 1 of payload)
+    Server->>Client: ACK (Ack Data 1)
+    Client->>Server: Data Packet 2 (Part 2 of payload)
+    Server->>Client: ACK (Ack Data 2)
+    
+    Note over Client,Server: Server Responds
+    Server->>Client: Data Packet 1 (Response Part 1)
+    Client->>Server: ACK (Ack Response Part 1)
+    Server->>Client: Data Packet 2 (Response Part 2)
+    Client->>Server: ACK (Ack Response Part 2)
+    
+    Note over Client,Server: Connection Termination
+    Client->>Server: FIN (Request to close connection)
+    Server->>Client: ACK (Acknowledge Close)

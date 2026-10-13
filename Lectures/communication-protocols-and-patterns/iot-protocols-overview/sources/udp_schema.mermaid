@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant Client as UDP Client
+    participant Server as UDP Server
+
+    Client->>Server: Request message (single datagram)
+    Note right of Server: No handshake, connectionless communication
+    Server-->>Client: Response datagram 1
+    Server-->>Client: Response datagram 2
+    Server-->>Client: Response datagram 3
+    Note right of Client: Datagrams may arrive out of order or be lost

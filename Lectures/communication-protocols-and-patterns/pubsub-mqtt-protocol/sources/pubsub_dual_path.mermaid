@@ -1,0 +1,12 @@
+flowchart LR
+    %% Nodi principali
+    pub["Publisher<br>QoS = Q_pub"]
+    broker["Broker"]
+    sub["Subscriber<br>QoS = Q_sub"]
+
+    %% Flusso di sottoscrizione
+    sub -- "SUBSCRIBE<br>QoS = Q_sub" --> broker
+
+    %% Flusso di pubblicazione
+    pub -- "PUBLISH<br>QoS = Q_pub" --> broker
+    broker -- "DELIVER<br>QoS = min(Q_pub, Q_sub)" --> sub

@@ -1,0 +1,48 @@
+graph TD
+    subgraph "EXTRACT Phase"
+        TS[🚦 Traffic Sensors<br/>Filter]
+        WS[🌡️ Weather Stations<br/>Filter]
+        AQ[🌫️ Air Quality Monitors<br/>Filter]
+        TC[📹 Traffic Cameras<br/>Filter]
+    end
+    
+    subgraph "TRANSFORM Phase"
+        DC[🔧 Data Cleansing<br/>Filter]
+        DV[✅ Data Validation<br/>Filter]
+        DN[📊 Data Normalization<br/>Filter]
+        DE[🔗 Data Enrichment<br/>Filter]
+        DF[📏 Data Formatting<br/>Filter]
+    end
+    
+    subgraph "LOAD Phase"
+        RT[⚡ Real-time Analytics DB<br/>Filter]
+        DW[🏢 Data Warehouse<br/>Filter]
+        HA[📈 Historical Analysis DB<br/>Filter]
+    end
+    
+    subgraph "External Data Sources"
+        GTA[🏛️ Government Traffic APIs<br/>Filter]
+        WD[🌍 Weather Data APIs<br/>Filter]
+    end
+    
+    %% Extract to Transform pipes
+    TS -->|Raw Traffic Data<br/>Pipe| DC
+    WS -->|Raw Weather Data<br/>Pipe| DC
+    AQ -->|Raw Air Quality Data<br/>Pipe| DC
+    TC -->|Raw Camera Data<br/>Pipe| DC
+    
+    %% Transform pipeline
+    DC -->|Cleaned Data<br/>Pipe| DV
+    DV -->|Validated Data<br/>Pipe| DN
+    DN -->|Normalized Data<br/>Pipe| DE
+    
+    %% External enrichment
+    GTA -.->|Traffic Reports<br/>Pipe| DE
+    WD -.->|Weather Context<br/>Pipe| DE
+    
+    DE -->|Enriched Data<br/>Pipe| DF
+    
+    %% Load phase
+    DF -->|Analytics Ready Data<br/>Pipe| RT
+    DF -->|Structured Data<br/>Pipe| DW
+    DF -->|Historical Data<br/>Pipe| HA

@@ -1,0 +1,18 @@
+flowchart TB
+    DEVICE(("IoT Client")) --- IOT_GATEWAY["IoT<br>GATEWAY"]
+    IOT_GATEWAY --- DEVICE_MGMT{{"Device Mgmt<br>SERVICE RESTful API"}} & DATA_INGEST{{"Data Ingestion<br>SERVICE RESTful API"}} & ANALYTICS{{"Analytics<br>SERVICE RESTful API"}} & ALERTING{{"Alerting<br>SERVICE RESTful API"}} & DASHBOARD{{"Dashboard<br>SERVICE RESTful API"}}
+
+    IOT_GATEWAY@{ shape: diam}
+     DEVICE:::circle
+     IOT_GATEWAY:::circle
+     DEVICE_MGMT:::hex
+     DATA_INGEST:::hex
+     ANALYTICS:::hex
+     ALERTING:::hex
+     DASHBOARD:::hex
+    classDef hex fill:#cfc,stroke:#333,stroke-width:2px
+    classDef circle fill:#eee,stroke:#333,stroke-width:2px
+    style DEVICE fill:#FFFFFF
+    style IOT_GATEWAY fill:#BBDEFB
+
+

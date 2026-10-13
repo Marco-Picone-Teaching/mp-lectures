@@ -1,0 +1,10 @@
+flowchart LR
+    A["Sensor 1"] -- "publish <br>Topic: sensor/1/temperature<br>Payload: 37.5" --> B["MQTT<br>Broker"]
+    C1["Subscriber<br>App 1"] -. subscribe: sensor/1/# .-> B
+    C2@{ label: "Subscriber<br style=\"--tw-scale-x:\">App 13" } -. subscribe sensor/1/temperature .-> B
+    C3@{ label: "Subscriber<br style=\"--tw-scale-x:\">App 2" } -. subscribe: sensor/+/temperature .-> B
+    B -- "37.5" --> C1 & C3 & C2
+
+    B@{ shape: hex}
+    C2@{ shape: rect}
+    C3@{ shape: rect}

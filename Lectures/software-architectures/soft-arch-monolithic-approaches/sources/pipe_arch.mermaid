@@ -1,0 +1,7 @@
+graph LR
+    INPUT[🔍 Data Input<br/>Filter] -->|Raw Data<br/>Pipe| VALIDATE[✅ Validate<br/>Filter]
+    VALIDATE -->|Clean Data<br/>Pipe| TRANSFORM[🔄 Transform<br/>Filter]
+    TRANSFORM -->|Processed Data<br/>Pipe| AGGREGATE[📊 Aggregate<br/>Filter]
+    TRANSFORM -.->|Side Channel<br/>Pipe| LOG[📝 Log<br/>Filter]
+    LOG -.->|Metadata<br/>Pipe| OUTPUT[📤 Output<br/>Filter]
+    AGGREGATE -->|Final Data<br/>Pipe| OUTPUT

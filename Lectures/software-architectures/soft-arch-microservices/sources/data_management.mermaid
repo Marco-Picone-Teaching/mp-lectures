@@ -1,0 +1,35 @@
+flowchart TB
+    REST_PASS(["Client"]) --> PASSENGER_MANAGEMENT{{"PASSENGER MANAGEMENT<br>RESTful API"}}
+    PASSENGER_MANAGEMENT --> DB_ADAPTER_PASS["DATABASE ADAPTER"]
+    DB_ADAPTER_PASS --> PASSENGER_DB["PASSENGER<br>MANAGEMENT<br>DATABASE"]
+    REST_DRIVER(["Client"]) --> DRIVER_MANAGEMENT{{"DRIVER MANAGEMENT<br>RESTful API"}}
+    DRIVER_MANAGEMENT --> DB_ADAPTER_DRIVER["DATABASE ADAPTER"]
+    DB_ADAPTER_DRIVER --> DRIVER_DB["DRIVER<br>MANAGEMENT<br>DATABASE"]
+    REST_TRIP(["Client"]) --> TRIP_MANAGEMENT{{"TRIP MANAGEMENT<br>RESTful API"}}
+    TRIP_MANAGEMENT --> DB_ADAPTER_TRIP["DATABASE ADAPTER"]
+    DB_ADAPTER_TRIP --> TRIP_DB["TRIP<br>MANAGEMENT<br>DATABASE"]
+
+    PASSENGER_DB@{ shape: cyl}
+    DRIVER_DB@{ shape: cyl}
+    TRIP_DB@{ shape: cyl}
+     REST_PASS:::square
+     PASSENGER_MANAGEMENT:::hex
+     DB_ADAPTER_PASS:::rect
+     PASSENGER_DB:::circle
+     REST_DRIVER:::square
+     DRIVER_MANAGEMENT:::hex
+     DB_ADAPTER_DRIVER:::rect
+     DRIVER_DB:::circle
+     REST_TRIP:::square
+     TRIP_MANAGEMENT:::hex
+     DB_ADAPTER_TRIP:::rect
+     TRIP_DB:::circle
+    classDef hex fill:#cfc,stroke:#333,stroke-width:2px
+    classDef square fill:#fff,stroke:#333,stroke-width:2px
+    classDef rect fill:#eee,stroke:#333,stroke-width:2px
+    classDef circle fill:#fff,stroke:#333,stroke-width:2px
+    style PASSENGER_MANAGEMENT fill:#BBDEFB
+    style PASSENGER_DB fill:#BBDEFB
+    style DRIVER_DB fill:#C8E6C9
+    style TRIP_MANAGEMENT fill:#FFE0B2
+    style TRIP_DB fill:#FFE0B2

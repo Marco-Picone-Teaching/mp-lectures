@@ -1,0 +1,44 @@
+flowchart LR
+ subgraph Gateways["Gateways"]
+        WebGateway["Web App<br>API Gateway"]
+        MobileGateway["Mobile<br>API Gateway"]
+        PublicGateway["Public<br>API Gateway"]
+  end
+ subgraph Services["Services"]
+        CatalogREST["RESTful API<br>Catalog service"]
+        RecoREST["RESTful API<br>Recommendation service"]
+        ReviewGRPC["gRPC<br>Review service"]
+  end
+    WebApp(["Web App"]) --> WebGateway
+    MobileApp(["Mobile App"]) --> MobileGateway
+    ThirdParty(["3rd Party App"]) --> PublicGateway
+    WebGateway --> CatalogREST
+    MobileGateway --> CatalogREST & RecoREST
+    PublicGateway --> RecoREST & ReviewGRPC
+
+    WebGateway@{ shape: diam}
+    MobileGateway@{ shape: diam}
+    PublicGateway@{ shape: diam}
+    CatalogREST@{ shape: hex}
+    RecoREST@{ shape: hex}
+    ReviewGRPC@{ shape: hex}
+     WebGateway:::gateway
+     MobileGateway:::gateway
+     PublicGateway:::gateway
+     CatalogREST:::service
+     RecoREST:::service
+     ReviewGRPC:::service
+     WebApp:::frontend
+     MobileApp:::frontend
+     ThirdParty:::frontend
+    classDef frontend fill:#c5ecc5,stroke:#333,stroke-width:2px
+    classDef gateway fill:#76b5e5,stroke:#333,stroke-width:2px
+    classDef service fill:#3893c5,stroke:#333,stroke-width:2px,color:#fff
+    style CatalogREST fill:#00C853
+    style RecoREST fill:#00C853
+    style ReviewGRPC fill:#00C853
+    style WebApp fill:#FFFFFF
+    style MobileApp fill:#FFFFFF
+    style ThirdParty fill:#FFFFFF
+
+
