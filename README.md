@@ -42,6 +42,7 @@ Lectures are intentionally **not numbered**: there is no mandatory order, and ea
 ### 🐍 Programming & Software Engineering
 
 - [📖 Python Best Practices & Object Oriented Programming](Lectures/programming-and-software-engineering/python-best-practices-and-oop/python_best_practices_and_oop.md)
+- [📖 Python Advanced Topics: Concurrency, Queues, Event-Driven Architectures & Testing](Lectures/programming-and-software-engineering/python-advanced-topics/python_advanced_topics.md)
 
 ### 🔌 Communication Protocols & Patterns
 
