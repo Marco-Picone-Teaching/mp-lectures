@@ -56,6 +56,7 @@
   - [F.4 Example: Request \& Response](#f4-example-request--response)
   - [F.5 Caching, Redirects \& CORS](#f5-caching-redirects--cors)
   - [F.6 Updated Summary Table](#f6-updated-summary-table)
+  - [F.7 Implementation Notes](#f7-implementation-notes)
 - [References](#references)
   
 # A. Using a Web-Based Approach for the Internet of Things
@@ -1442,7 +1443,27 @@ The [Summary Table](#d3-level-2-http-methods) of Section D.3 can be extended wit
 \* `POST` responses are cacheable only with explicit freshness information and are rarely cached in practice.
 
 > **Modeling takeaway:**  
-> Use `GET` with query parameters for simple reads, and consider `QUERY` when the query is large, structured or sensitive. Avoid using `POST` for read-only queries: in REST it conveys creation, and its generic semantics hides the safe nature of the operation from clients and intermediaries. Since QUERY is a **new standard**, always check support in the frameworks, proxies and clients you adopt before relying on it.
+> Use `GET` with query parameters for simple reads, and consider `QUERY` when the query is large, structured or sensitive. Avoid using `POST` for read-only queries: in REST it conveys creation, and its generic semantics hides the safe nature of the operation from clients and intermediaries. Since QUERY is a **new standard**, always check support in the frameworks, proxies and clients you adopt before relying on it (see [F.7](#f7-implementation-notes)).
+
+---
+
+## F.7 Implementation Notes
+
+QUERY has been standardized **only recently** (RFC 10008, 2026). Publishing an RFC does not mean that the whole ecosystem supports it immediately: libraries, frameworks and infrastructure components adopt new standards gradually. In practice, a QUERY request must cross **every component along the request path**, and each of them may represent a limitation:
+
+- **Server frameworks**: Routing and request handling are often bound to a fixed set of methods. An unknown method may not be routable, or may be rejected with `405 Method Not Allowed` or `501 Not Implemented`.
+- **Intermediaries**: Reverse proxies, API gateways, load balancers, Web Application Firewalls (WAFs) and CDNs may block unknown methods, or forward them without applying the caching rules defined for QUERY.
+- **Client libraries & browsers**: Many HTTP clients allow arbitrary method names, but this must be verified case by case. In browsers, cross-origin QUERY requests always trigger a **CORS preflight**, so the server must explicitly allow the method (`Access-Control-Allow-Methods: QUERY`).
+- **API description & testing tools**: Specification formats (e.g., OpenAPI), code generators, mocking and testing tools may introduce support later than the protocol itself.
+
+**Practical guidelines:**
+
+- **Verify end-to-end support** before adopting QUERY: test the whole chain (client → proxies/gateways → server), not only the server framework.
+- **Advertise support explicitly**: Use `Accept-Query` and list QUERY in the `Allow` header returned by `OPTIONS` or in `405` responses, so clients can discover it.
+- **Plan a fallback**: Until support is widespread, a pragmatic alternative is to keep `GET` with query parameters for simple cases and to use `POST` toward a **dedicated search resource** for complex ones, clearly documenting that the operation is **read-only** (accepting the loss of caching and automatic retries discussed in [F.2](#f2-why-post-is-not-the-right-fit-for-queries)).
+
+> **Implementation takeaway:**  
+> QUERY is the semantically correct choice for complex read-only queries, but standards and implementations evolve at different speeds. Adopt it where the whole stack supports it, and keep a documented fallback where it does not.
 
 ---
 
