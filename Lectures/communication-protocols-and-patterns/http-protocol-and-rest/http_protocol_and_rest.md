@@ -49,6 +49,13 @@
       - [D.3.8 Level 2: The Calendar Example Revisited](#d38-level-2-the-calendar-example-revisited)
       - [D.3.9 Level 2: URI Templates \& Conventions](#d39-level-2-uri-templates--conventions)
     - [E. Level 3: Hypermedia as the Engine of Application State (HATEOAS)](#e-level-3-hypermedia-as-the-engine-of-application-state-hateoas)
+- [F. Evolving Standards: Beyond GET and POST with the New HTTP QUERY Method](#f-evolving-standards-beyond-get-and-post-with-the-new-http-query-method)
+  - [F.1 The Problem: Complex Queries in REST APIs](#f1-the-problem-complex-queries-in-rest-apis)
+  - [F.2 Why POST Is Not the Right Fit for Queries](#f2-why-post-is-not-the-right-fit-for-queries)
+  - [F.3 The QUERY Method: Semantics \& Properties](#f3-the-query-method-semantics--properties)
+  - [F.4 Example: Request \& Response](#f4-example-request--response)
+  - [F.5 Caching, Redirects \& CORS](#f5-caching-redirects--cors)
+  - [F.6 Updated Summary Table](#f6-updated-summary-table)
 - [References](#references)
   
 # A. Using a Web-Based Approach for the Internet of Things
@@ -959,6 +966,8 @@ Main points to note:
 - **PUT** updates resources, not safe but idempotent (repeating PUT produces the same effect).
 - **DELETE** removes resources, not safe but idempotent (repeating DELETE remains harmless after the first call)[1].
 
+> **Note:** For complex read-only queries that do not fit well into the URI, HTTP now offers a dedicated method: see [Section F](#f-evolving-standards-beyond-get-and-post-with-the-new-http-query-method) on the new **QUERY** method (RFC 10008).
+
 ---
 
 #### D.3.1 Level 2: Response Codes
@@ -1293,12 +1302,158 @@ The significance of hypermedia in REST is that it embodies the principle of **�
 
 ---
 
+# F. Evolving Standards: Beyond GET and POST with the New HTTP QUERY Method
+
+HTTP is not a frozen protocol: it is an **evolving standard** maintained by the IETF HTTP Working Group, and its semantics are still being refined and extended to address real-world needs. A recent example is **RFC 10008 - The HTTP QUERY Method** (Proposed Standard, 2026), which introduces a **new HTTP method** designed to fill a long-standing gap between `GET` and `POST`: performing **safe and idempotent queries whose parameters are carried in the request body**.
+
+This section explains which problem QUERY solves, why the existing methods are not a good fit, and how the new method works.
+
+---
+
+## F.1 The Problem: Complex Queries in REST APIs
+
+As discussed in [C.8](#c8-rest--uri-example) and [D.3](#d3-level-2-http-methods), in a RESTful API the natural way to read and filter resources is a `GET` request with **query parameters**:
+
+```http
+GET /sensors/readings?type=temperature&building=A&from=2026-10-01&to=2026-10-15&limit=100 HTTP/1.1
+Host: iot.example.org
+Accept: application/json
+```
+
+This works well for simple filters, but becomes problematic when the query is **large or structured** (e.g., complex filters, nested conditions, a query language such as SQL or JSONPath):
+
+- **URI length limits**: Servers, proxies and libraries often impose (undocumented) limits on URI length, and long URIs may be rejected or truncated.
+- **Encoding overhead**: Structured queries must be squeezed and percent-encoded into the query string, reducing readability and increasing the risk of errors.
+- **Logging & privacy**: URIs are routinely stored in server, proxy and browser logs, so sensitive query parameters may be exposed.
+- **No body in GET**: Sending a body with `GET` is not a solution: according to RFC 9110, content in a `GET` request has **no generally defined semantics**, and many servers and intermediaries ignore or reject it.
+
+The result is that developers often fall back to `POST` for complex queries, which leads to the issue discussed in the next section.
+
+---
+
+## F.2 Why POST Is Not the Right Fit for Queries
+
+`POST` allows a body, so it seems the obvious workaround. However, from a **REST modeling perspective** it is not appropriate for queries:
+
+- **POST is associated with creation in REST**: As seen in [D.3](#d3-level-2-http-methods) and in the [Create Interaction Flow](#d34-level-2-interaction-flow---create-a-new-resource), in the REST/CRUD mapping `POST` on a collection means **creating a new resource** (typically answered with `201 Created` and a `Location` header). Using `POST /sensors/readings/search` to *read* data breaks this expectation, makes the API less self-descriptive and drifts back toward an RPC-style design (Level 0).
+- **POST is neither safe nor idempotent**: Clients, caches and intermediaries must assume that a `POST` may change the server state. As a consequence:
+  - responses are **not reused by caches**;
+  - requests are **not automatically retried** after a network failure (a retry could, for example, create a duplicate resource);
+  - the fact that the operation is a read-only query remains **hidden** in the API documentation, invisible to the protocol.
+
+> **Precision note:** Formally, RFC 9110 (§9.3.3) does **not** define `POST` as "create". It defines a generic semantics: the target resource **processes the enclosed representation according to its own specific semantics**. Creation is one possible use, as are form submission, appending data or starting a processing task. The association **POST = Create** is a **REST/CRUD convention**, not the protocol definition. This is precisely the problem: the semantics of `POST` is too generic and opaque for a read-only query.
+
+---
+
+## F.3 The QUERY Method: Semantics & Properties
+
+The **QUERY** method asks the target resource to **process the enclosed content in a safe and idempotent manner and return the result**. In other words, it combines the **body** of `POST` with the **guarantees** of `GET`.
+
+Main characteristics:
+
+- **Safe**: The client does not request or expect any change to the state of the target resource. (The server may still create separate resources to hold the results, see below.)
+- **Idempotent**: Repeating the same request has the same effect, so it can be **automatically retried**.
+- **Query in the body**: The query is carried in the request content, avoiding URI length limits, encoding overhead and the exposure of parameters in URIs and logs.
+- **Mandatory `Content-Type`**: The request must specify the media type of the query (e.g., `application/json`, `application/x-www-form-urlencoded`, `application/sql`). The server must **not** guess the type from the content. Typical error responses are:
+  - `400 Bad Request` (malformed query),
+  - `415 Unsupported Media Type` (query format not supported),
+  - `422 Unprocessable Content` (well-formed but not processable query),
+  - `406 Not Acceptable` (requested response format not available).
+- **Equivalent resource**: Conceptually, a QUERY request corresponds to a resource that could be retrieved with `GET`, identified by the combination of the **target URI** and the **query content**.
+- **Discoverability with `Accept-Query`**: A new response header (a Structured Field) that lists the **query media types supported** by a resource. Clients can discover it via `HEAD`, `OPTIONS` or a `415` response.
+
+---
+
+## F.4 Example: Request & Response
+
+The following example queries the temperature readings of a building using a JSON query document instead of a long query string:
+
+```http
+QUERY /sensors/readings HTTP/1.1
+Host: iot.example.org
+Content-Type: application/json
+Accept: application/json
+
+{
+  "type": "temperature",
+  "building": "A",
+  "range": { "from": "2026-10-01", "to": "2026-10-15" },
+  "where": { "value": { "gt": 25.0 } },
+  "fields": ["sensorId", "timestamp", "value"],
+  "limit": 100
+}
+```
+
+A possible response:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Location: /sensors/readings/results/7f3a
+Location: /sensors/readings/queries/42
+Accept-Query: application/json, application/sql
+
+[
+  { "sensorId": "t-101", "timestamp": "2026-10-03T14:05:00Z", "value": 26.4 },
+  { "sensorId": "t-107", "timestamp": "2026-10-09T13:40:00Z", "value": 25.8 }
+]
+```
+
+The response headers have a specific meaning:
+
+- **`Content-Location`**: Identifies a resource containing **this result**, which the client can later retrieve with a simple `GET` (the server may keep it only temporarily).
+- **`Location`**: Identifies a resource representing **the query itself**: a `GET` on it re-executes the same query, so the client does not need to resend the body.
+- **`Accept-Query`**: Advertises the query formats accepted by the resource (here JSON and SQL).
+
+---
+
+## F.5 Caching, Redirects & CORS
+
+**Caching**
+
+- QUERY responses are **cacheable**, unlike `POST` responses.
+- The cache key must include not only the URI but also the **request content** and the related metadata (e.g., `Content-Type`).
+- Caches may normalize semantically irrelevant differences (e.g., whitespace in JSON), but incorrect normalization could return wrong results.
+
+**Redirects**
+
+- `301`, `302`, `307`, `308`: the client repeats the **QUERY** (with the same body) toward the new URI. The historical behavior of converting `POST` into `GET` after `301`/`302` does **not** apply.
+- `303 See Other`: the client performs a **GET** on the new URI (typically to retrieve the stored result).
+
+**Security & CORS**
+
+- QUERY is **not** a CORS-safelisted method, so browsers always send a **preflight** request before cross-origin QUERY requests.
+- Servers should avoid embedding sensitive query data into the URIs they generate for results (`Content-Location`, `Location`).
+
+---
+
+## F.6 Updated Summary Table
+
+The [Summary Table](#d3-level-2-http-methods) of Section D.3 can be extended with the new method:
+
+| Method  | Safe | Idempotent | Request Body | Cacheable | CRUD Operation        |
+|---------|------|------------|--------------|-----------|-----------------------|
+| GET     | Yes  | Yes        | No           | Yes       | Read                  |
+| QUERY   | Yes  | Yes        | Yes          | Yes       | Read (complex query)  |
+| POST    | No   | No         | Yes          | Rarely*   | Create                |
+| PUT     | No   | Yes        | Yes          | No        | Update                |
+| DELETE  | No   | Yes        | No           | No        | Delete                |
+
+\* `POST` responses are cacheable only with explicit freshness information and are rarely cached in practice.
+
+> **Modeling takeaway:**  
+> Use `GET` with query parameters for simple reads, and consider `QUERY` when the query is large, structured or sensitive. Avoid using `POST` for read-only queries: in REST it conveys creation, and its generic semantics hides the safe nature of the operation from clients and intermediaries. Since QUERY is a **new standard**, always check support in the frameworks, proxies and clients you adopt before relying on it.
+
+---
+
 # References
 
 - Desai, Pratikkumar & Sheth, Amit & Anantharam, Pramod. (2014). Semantic Gateway as a Service Architecture for IoT Interoperability. 10.1109/MobServ.2015.51. [Link](https://doi.org/10.1109/MobServ.2015.51)
 - REST Maturity Model - [Link](http://martinfowler.com/articles/richardsonMaturityModel.html)
 - Jim Webber, Savas Parastatidis, Ian Robinson, “REST in Practice,” O'Reilly Media, September 2010 [Link](http://shop.oreilly.com/product/9780596805838.do)
 - RFC5988 - [Link](https://tools.ietf.org/html/rfc5988)
+- RFC9110 - HTTP Semantics - [Link](https://www.rfc-editor.org/info/rfc9110)
+- RFC10008 - The HTTP QUERY Method - J. Reschke, J. M. Snell, M. Bishop - [Link](https://www.rfc-editor.org/info/rfc10008/)
 - Web to Edge - [Link](https://www.w3.org/WoT/IG/wiki/images/d/de/WebToTheEdge-WoT.pdf)
 - R. T. Fielding, “Architectural Styles and the Design of Network-based Software Architectures,” PhD thesis, University of California, 2000. Available: [Link](https://ics.uci.edu/~fielding/pubs/dissertation/top.htm)
 - Roy T. Fielding and Richard N. Taylor. 2002. Principled design of the modern Web architecture. ACM Trans. Internet Technol. 2, 2 (May 2002), 115–150. https://doi.org/10.1145/514183.514185 [Link](https://dl.acm.org/doi/10.1145/514183.514185)
