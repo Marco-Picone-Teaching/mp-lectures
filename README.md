@@ -50,6 +50,13 @@ Lectures are intentionally **not numbered**: there is no mandatory order, and ea
 - [📖 The HTTP Protocol & RESTful Architectural Style](Lectures/communication-protocols-and-patterns/http-protocol-and-rest/http_protocol_and_rest.md)
 - [📖 Publish/Subscribe Communication Pattern & MQTT Protocol](Lectures/communication-protocols-and-patterns/pubsub-mqtt-protocol/pubsub_mqtt_protocol.md)
 - [📖 The Constrained Application Protocol (CoAP)](Lectures/communication-protocols-and-patterns/coap-protocol/coap_protocol.md)
+- [📖 Resource & Service Discovery](Lectures/communication-protocols-and-patterns/resource-and-service-discovery/resource_and_service_discovery.md)
+
+### 🗂️ Data Formats
+
+- [📖 Classic Data Formats: JSON, YAML, TOML & CSV](Lectures/data-formats/data-formats-classic/data_formats_classic.md)
+- [📖 IoT Data Formats - Sensor Measurement Lists (SenML)](Lectures/data-formats/data-formats-iot-senml/data_formats_iot_senml.md)
+- [📖 IoT Data Formats - Concise Binary Object Representation (CBOR)](Lectures/data-formats/data-formats-iot-cbor/data_formats_iot_cbor.md)
 
 ### 🏗️ Software Architectures
 
