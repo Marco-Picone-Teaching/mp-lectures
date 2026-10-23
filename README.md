@@ -49,6 +49,7 @@ Lectures are intentionally **not numbered**: there is no mandatory order, and ea
 - [📖 IoT Protocols Overview](Lectures/communication-protocols-and-patterns/iot-protocols-overview/iot_protocols_overview.md)
 - [📖 The HTTP Protocol & RESTful Architectural Style](Lectures/communication-protocols-and-patterns/http-protocol-and-rest/http_protocol_and_rest.md)
 - [📖 Publish/Subscribe Communication Pattern & MQTT Protocol](Lectures/communication-protocols-and-patterns/pubsub-mqtt-protocol/pubsub_mqtt_protocol.md)
+- [📖 The Constrained Application Protocol (CoAP)](Lectures/communication-protocols-and-patterns/coap-protocol/coap_protocol.md)
 
 ### 🏗️ Software Architectures
 

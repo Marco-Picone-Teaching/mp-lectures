@@ -73,7 +73,7 @@ By modeling IoT systems using **web standards** and protocols, developers benefi
 
 For this reason, in this lecture we will focus on the **HTTP protocol** and the **RESTful architectural style**, which are widely adopted for building web-based IoT applications and also for traditional web applications. 
 
-> **Note:** IoT device with constrained resources (e.g., limited processing power, memory, and energy) may not be able to use HTTP directly. In such cases, lightweight protocols like **CoAP (Constrained Application Protocol)** are often employed. CoAP is designed specifically for constrained environments and provides similar functionalities to HTTP but with reduced overhead, making it suitable for resource-limited IoT devices. In this lecture, however, we will focus on HTTP and REST as they are the most widely used protocols for web-based applications, including many IoT scenarios and CoAP is not covered in this course but the key concepts and principles discussed here can be applied to CoAP as well.
+> **Note:** IoT device with constrained resources (e.g., limited processing power, memory, and energy) may not be able to use HTTP directly. In such cases, lightweight protocols like **CoAP (Constrained Application Protocol)** are often employed. CoAP is designed specifically for constrained environments and provides similar functionalities to HTTP but with reduced overhead, making it suitable for resource-limited IoT devices. In this lecture, we focus on HTTP and REST as they are the most widely used protocols for web-based applications, including many IoT scenarios. The key concepts and principles discussed here apply to CoAP as well.
 
 ---
 
