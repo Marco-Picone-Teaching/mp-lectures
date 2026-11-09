@@ -51,6 +51,7 @@ Lectures are intentionally **not numbered**: there is no mandatory order, and ea
 - [📖 Publish/Subscribe Communication Pattern & MQTT Protocol](Lectures/communication-protocols-and-patterns/pubsub-mqtt-protocol/pubsub_mqtt_protocol.md)
 - [📖 The Constrained Application Protocol (CoAP)](Lectures/communication-protocols-and-patterns/coap-protocol/coap_protocol.md)
 - [📖 Resource & Service Discovery](Lectures/communication-protocols-and-patterns/resource-and-service-discovery/resource_and_service_discovery.md)
+- [📖 IoT Smart Object Design](Lectures/communication-protocols-and-patterns/iot-smart-object-design/iot_smart_object_design.md)
 
 ### 🗂️ Data Formats
 
