@@ -830,10 +830,6 @@ Keep the core minimal and define stable plugin APIs to maximize the pattern’s 
 
 ### G.1 Microkernel Topology
 
-![](images/microkernel_function_example.png)
-
-**Figure 13:** Example of microkernel architecture with function-specific plug-ins related to IoT protocol management.
-
 Instead of embedding client-specific customizations in the core (which increases coupling and interoperability complexity), implement them as separate plug-ins. Key points:
 
 - **Isolation:** client logic lives in independent plug-ins, keeping the core small and simple.
@@ -847,8 +843,6 @@ Instead of embedding client-specific customizations in the core (which increases
 **Figure 14:** Different Microkernel Core Topologies with a layered architecture or domain-driven design.
 
 Depending on size and complexity, the **core** can be implemented as a **layered architecture** or a **modular monolith**. Alternatively, the core can be decomposed into independently deployed **domain services**, each hosting the plug‑ins relevant to that domain (e.g., **device management**, **data processing** or **analytics**).
-
-Example: an IoT platform may implement protocol adaptors as separate plug‑ins (e.g., **MQTT**, **CoAP**, **HTTP**) that are either loaded by the core or provided by the corresponding domain service.
 
 Key points
 - **Core options:** layered or modular monolith.
@@ -864,6 +858,12 @@ Key points
 - A separate UI may itself adopt a **microkernel** (plug‑in) style to support extensibility and customization.
 - Architectures often mix these styles — combining embedded cores, layered modules, microkernels, or modular monoliths — producing variants with different trade‑offs in **deployability**, **extensibility**, **fault isolation**, and **operational complexity**.
 - Choose the combination that matches your measurable goals (scalability, maintainability, release cadence, and operational capacity).
+
+Example: an IoT platform may implement protocol adaptors as separate plug‑ins (e.g., **MQTT**, **CoAP**, **HTTP**) that are either loaded by the core or provided by the corresponding domain service.
+
+![](images/microkernel_function_example.png)
+
+**Figure 13:** On the left an example of a Core module function that has to handle IoT Device Data through different protocols. Internally it uses different plugin instances according to the type of protocol used by the device.
 
 ---
 
@@ -988,7 +988,7 @@ This concise registry model lets the core locate, validate, and invoke plug‑in
 
 ![](images/plugin_example.png)
 
-**Figure 19:** Example of simple plug-in code.
+**Figure 19:** Example of simple plugin contracts shaping the interface of a generic *IoTDataManagerPlugin* and the associated result data structure through the class *IoTDeviceResult*.
 
 In this section we focus on the **plugin–core contracts** that define how plug‑ins interact with the core system. 
 Clear, stable contracts are essential for decoupling, extensibility, and maintainability.
