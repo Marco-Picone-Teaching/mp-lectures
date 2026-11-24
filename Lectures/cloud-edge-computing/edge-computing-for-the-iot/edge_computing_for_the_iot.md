@@ -125,11 +125,6 @@ Together with their advantages, IoT Cloud platforms present some common **open i
 - **Strong bond with the vendor/provider** (vendor lock-in).
 - **Learning curve.**
 
-![](images/cloud_centric_iot_architecture.jpg)
-
-**Figure 3:** Cloud-centric IoT architecture: devices send data to applications running in the cloud through the
-network and the Internet.
-
 These issues lead to two fundamental questions that drive this lecture:
 
 > Is the Cloud always the best option to handle an IoT project?
@@ -146,7 +141,7 @@ while users and connected objects at the periphery of the network continuously s
 
 ![](images/internet_architecture_cloud_scalability.jpg)
 
-**Figure 4:** The Internet architecture as we know it: in 2015 about 1 billion users and less than 100 million IoT
+**Figure 3:** The Internet architecture as we know it: in 2015 about 1 billion users and less than 100 million IoT
 objects exchanged data with the Cloud (raising **performance** questions); with billions of users and tens of billions
 of IoT objects, the same centralized model raises **scalability** questions.
 
@@ -165,7 +160,7 @@ working connection to remote services. This is what we call the Cloud **"addicti
 
 ![](images/cloud_addiction_voice_assistant.jpg)
 
-**Figure 5:** Cloud "addiction": a user asks a voice assistant to turn on the light in the same room, but if the
+**Figure 4:** Cloud "addiction": a user asks a voice assistant to turn on the light in the same room, but if the
 connection to the cloud is unavailable the assistant can neither understand the command nor communicate with the lights.
 
 The user, the voice assistant and the smart light are all physically in the same place, but the interaction fails
@@ -180,7 +175,7 @@ products experienced a connectivity issue that left users unable to monitor and 
 
 ![](images/cloud_connectivity_challenge_nest.jpg)
 
-**Figure 6:** The Nest smart home apps outage (TechCrunch, January 2016) and some user reactions: *"Nest users who
+**Figure 5:** The Nest smart home apps outage (TechCrunch, January 2016) and some user reactions: *"Nest users who
 depend on their connected products to monitor their homes experienced a hiccup in connectivity Saturday that left users
 scrambling to figure out what was happening."*
 
@@ -200,11 +195,11 @@ with each other and interact with the Cloud only when needed.
 
 ![](images/envisioned_edge_fog_architecture.jpg)
 
-**Figure 7:** Envisioned Edge/Fog architecture: Edge Nodes, close to users and IoT objects, communicate with each other
+**Figure 6:** Envisioned Edge/Fog architecture: Edge Nodes, close to users and IoT objects, communicate with each other
 and with the Cloud, which keeps providing services, storage and processing.
 
 > **Note:** the OpenFog Consortium (founded by ARM, Cisco, Dell, Intel, Microsoft and Princeton University) shown in
-> Figure 7 merged into the Industrial Internet Consortium (now Industry IoT Consortium) in 2019. Its OpenFog Reference
+> Figure 6 merged into the Industrial Internet Consortium (now Industry IoT Consortium) in 2019. Its OpenFog Reference
 > Architecture was adopted as the IEEE 1934-2018 standard.
 
 ---
@@ -215,7 +210,7 @@ The history of computing shows a continuous oscillation between **centralized** 
 
 ![](images/cycles_of_computing.jpg)
 
-**Figure 8:** Cycles of computing: Mainframe (centralized, 1960-1970), Client-Server (distributed, 1980-2000),
+**Figure 7:** Cycles of computing: Mainframe (centralized, 1960-1970), Client-Server (distributed, 1980-2000),
 Mobile-Cloud (centralized, 2005-2020) and Edge Intelligence (distributed, 2020 onwards). Source of the predictions: IDC
 FutureScape Worldwide Internet of Things Predictions, 2016.
 
@@ -297,7 +292,7 @@ for its innovation, implementation and deployment.
 
 ![](images/edge_vs_fog_computing_layers.jpg)
 
-**Figure 9:** Cloud, Fog and Edge layers: processing speed and response time improve moving from the Cloud (big data
+**Figure 8:** Cloud, Fog and Edge layers: processing speed and response time improve moving from the Cloud (big data
 processing, business logic, data warehousing) to the Fog (local network, data analysis & reduction, control response,
 virtualization/standardization) and to the Edge (large volume real-time data processing, on-premises data
 visualization, industrial PCs, embedded systems, gateways, micro data storage). Source: WinSystems.
@@ -368,7 +363,7 @@ An intelligent distributed Edge architecture drives intelligence capabilities to
 
 ![](images/intelligent_distributed_architecture.jpg)
 
-**Figure 10:** Intelligent distributed architecture: autonomy of things and collaboration of things (things & things,
+**Figure 9:** Intelligent distributed architecture: autonomy of things and collaboration of things (things & things,
 things & human, things & local systems, things & the cloud). Things share data and knowledge to enhance collaboration
 and learn from data generated in collaboration to enhance their autonomy. Source: IEC Edge Intelligence White Paper.
 
@@ -470,7 +465,7 @@ and learn from data generated in collaboration to enhance their autonomy. Source
 
 ![](images/iot_edge_architecture.jpg)
 
-**Figure 11:** IoT & Edge architecture. Top: objects (sensors, actuators, displays on bare metal), the Edge (devices,
+**Figure 10:** IoT & Edge architecture. Top: objects (sensors, actuators, displays on bare metal), the Edge (devices,
 aggregators and network providing storage, networking and processing for edge intelligence) and the Cloud (servers
 providing service exposure). Bottom: sensors, devices and actuators send IoT data to the Edge and receive actions; the
 Edge performs analytics, decision making and self-adaptation, sends notifications to the IoT core servers
@@ -513,7 +508,7 @@ cross-cutting **management**, **full-lifecycle data** and **security** services.
 
 ![](images/edge_computing_reference_architecture.jpg)
 
-**Figure 12:** Edge Computing Reference Architecture 2.0: Smart Service, Service Fabric, Connectivity and Computing
+**Figure 11:** Edge Computing Reference Architecture 2.0: Smart Service, Service Fabric, Connectivity and Computing
 Fabric (CCF) and Edge Computing Nodes (ECN), with cross-layer management, full-lifecycle data and security services.
 Source: Edge Computing Consortium.
 
@@ -560,7 +555,7 @@ providers and telecom operators are bringing computing and storage capabilities 
 
 ![](images/network_provider_edge_computing.jpg)
 
-**Figure 13:** AWS Wavelength and the Vodafone Business / AWS collaboration (December 2019): AWS compute and storage
+**Figure 12:** AWS Wavelength and the Vodafone Business / AWS collaboration (December 2019): AWS compute and storage
 services are embedded at the edge of the 5G network to provide single-digit millisecond latencies to mobile devices and
 end users, for use cases such as ultra-low latency compute and edge data processing.
 
@@ -577,7 +572,7 @@ end users, for use cases such as ultra-low latency compute and edge data process
 
 ![](images/edge_software_microservices_containers.jpg)
 
-**Figure 14:** Edge computing software evolution: things connect to microservices running on an operating
+**Figure 13:** Edge computing software evolution: things connect to microservices running on an operating
 system/container layer on top of the edge computing node hardware, which in turn communicates with the IoT cloud
 platform.
 
@@ -641,7 +636,7 @@ The IoT Hub plays a fundamental role by implementing the following functions at 
 
 ![](images/iot_hub_protocol_stack_functions.jpg)
 
-**Figure 15:** The IoT Hub protocol stack (IEEE 802.15.4/IEEE 802.11 at the physical/link layer, IP at the network
+**Figure 14:** The IoT Hub protocol stack (IEEE 802.15.4/IEEE 802.11 at the physical/link layer, IP at the network
 layer, UDP/TCP at the transport layer, CoAP/HTTP at the application layer) and its functional plane: Border Router at
 the link and network layers, and Discovery, Resource Directory, C2C/H2C Proxy and Cache, and Origin Server at the
 application layer.
@@ -652,7 +647,7 @@ application layer.
 
 ![](images/iot_hub_border_router.jpg)
 
-**Figure 16:** The IoT Hub as Border Router between multiple physical/link layer networks (IEEE 802.15.4, IEEE 802.11,
+**Figure 15:** The IoT Hub as Border Router between multiple physical/link layer networks (IEEE 802.15.4, IEEE 802.11,
 Bluetooth) and a single IPv6 network layer.
 
 - **Border Router:** the IoT Hub is the gateway/bridge between one or more **constrained networks** (e.g., IEEE
@@ -668,7 +663,7 @@ Bluetooth) and a single IPv6 network layer.
 
 ![](images/iot_hub_application_layer_functions.jpg)
 
-**Figure 17:** Application layer functions of the IoT Hub: Service Discovery, Resource Directory, Origin Server, Proxy
+**Figure 16:** Application layer functions of the IoT Hub: Service Discovery, Resource Directory, Origin Server, Proxy
 and Cache, mediating the interaction between Clients and Smart Objects.
 
 At the application layer, the IoT Hub acts as the **single entry point** for clients that want to interact with the
@@ -721,7 +716,7 @@ RD and then **periodically updated**.
 
 ![](images/iot_hub_rd_registration_flow.jpg)
 
-**Figure 18:** Resource Directory registration and periodic update performed by the Resource Discovery module of the IoT
+**Figure 17:** Resource Directory registration and periodic update performed by the Resource Discovery module of the IoT
 Hub.
 
 The registration steps are the following:
@@ -800,7 +795,7 @@ The interaction with Smart Objects through the IoT Hub occurs according to the f
 
 ![](images/iot_hub_resource_access_steps.jpg)
 
-**Figure 19:** Resource access through the IoT Hub: resource discovery on the RD (`GET coap://IP_H:Port_H/rd-lookup/res?<Q>`),
+**Figure 18:** Resource access through the IoT Hub: resource discovery on the RD (`GET coap://IP_H:Port_H/rd-lookup/res?<Q>`),
 followed by direct access to the Smart Object, access through the IoT Hub proxy, or cached access served directly by the
 IoT Hub.
 
@@ -849,7 +844,7 @@ one of the available IoT Hub replicas, while the physical IoT Hub is connected t
 
 ![](images/virtual_hub_polling_resources.jpg)
 
-**Figure 20:** Polling resources: the consumer request (1) reaches the Cloud Access Control, which forwards it to a
+**Figure 19:** Polling resources: the consumer request (1) reaches the Cloud Access Control, which forwards it to a
 replica (2); the replica forwards it to the IoT Hub (3) and, if needed, to the Smart Object acting as a server (4-5);
 the response flows back to the consumer (6-8), while the other replicas are synchronized (6', 6'').
 
@@ -864,7 +859,7 @@ using the synchronization protocol.
 
 ![](images/virtual_hub_observing_resources.jpg)
 
-**Figure 21:** Observing resources: the observe request creates an "observe chain" from the consumer to the replica,
+**Figure 20:** Observing resources: the observe request creates an "observe chain" from the consumer to the replica,
 the IoT Hub and the Smart Object; notifications flow back along the same chain, while the other replicas are kept in
 sync.
 
@@ -880,7 +875,7 @@ of the request) are kept in sync using the synchronization protocol.
 
 ![](images/virtual_hub_pushing_resources.jpg)
 
-**Figure 22:** Pushing resources: the Smart Object acting as a CoAP client updates its resources on the IoT Hub (1),
+**Figure 21:** Pushing resources: the Smart Object acting as a CoAP client updates its resources on the IoT Hub (1),
 which synchronizes all the replicas (2, 2', 2''); consumer requests (3-6) are served directly by a replica.
 
 A Smart Object acting as a **CoAP client** posts and updates resources on the IoT Hub, which acts as **Origin Server**.
@@ -893,7 +888,7 @@ replica** without reaching the physical network.
 
 ![](images/virtual_hub_synchronization_protocol.jpg)
 
-**Figure 23:** Synchronization protocol between the IoT Hub and its virtual replicas: internal clients interact with
+**Figure 22:** Synchronization protocol between the IoT Hub and its virtual replicas: internal clients interact with
 the IoT Hub and the Smart Objects using CoAP; the IoT Hub publishes resource updates through an MQTT broker, to which
 the virtual replicas are subscribed; external clients interact with the virtual replicas using CoAP.
 
@@ -916,12 +911,12 @@ the broker takes care of the distribution.
 
 ![](images/virtual_hub_replica_message_flow.jpg)
 
-**Figure 24:** The broker-based message flow between the IoT Hub and its replicas: the IoT Hub publishes messages
+**Figure 23:** The broker-based message flow between the IoT Hub and its replicas: the IoT Hub publishes messages
 through MQTT over a VPN to the broker, which forwards them to all the IoT Hub replicas.
 
 ![](images/virtual_hub_replica_registry.jpg)
 
-**Figure 25:** Internal structure of the Replica Manager of the IoT Hub: the Replica Registry (keeping the identifiers
+**Figure 24:** Internal structure of the Replica Manager of the IoT Hub: the Replica Registry (keeping the identifiers
 of the active replicas), the MQTT Publisher and the MQTT Subscriber.
 
 The **Replica Manager** module of the IoT Hub is responsible for keeping track of the active replicas in the **Replica
