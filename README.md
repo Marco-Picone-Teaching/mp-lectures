@@ -65,6 +65,10 @@ Lectures are intentionally **not numbered**: there is no mandatory order, and ea
 - [📖 Software Architecture - Distributed Approaches](Lectures/software-architectures/soft-arch-distributed-approaches/soft_arch_distributed_approaches.md)
 - [📖 Software Architecture - Microservices Software Architectures](Lectures/software-architectures/soft-arch-microservices/soft_arch_microservices.md)
 
+### ☁️ Cloud & Edge Computing
+
+- [📖 Edge Computing for the IoT](Lectures/cloud-edge-computing/edge-computing-for-the-iot/edge_computing_for_the_iot.md)
+
 ### 🧩 End-to-End System Design
 
 - [📖 End-2-End Architecture Design](Lectures/end-to-end-system-design/end2end-architecture-design/end2end_architecture_design.md)
